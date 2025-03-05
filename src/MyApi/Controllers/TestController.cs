@@ -1,14 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MyApi.Controllers;
 
 public class TestController : ControllerBase
 {
-    [HttpGet("test")]
-    public ActionResult Get([FromServices] IMemoryCache memoryCache)
+
+    [HttpGet("test-httpclient")]
+    public async Task<ActionResult> TestHttpClient([FromServices] IHttpClientFactory httpClientFactory)
     {
-        memoryCache.Set("test", "test");
-        return Ok(Guid.NewGuid().ToString());
+        var client = httpClientFactory.CreateClient();
+        var response = await client.GetAsync("https://pokeapi.co/api/v2/ability/7/");
+        var responseContent = await response.Content.ReadAsStringAsync();
+        return Ok(responseContent);
     }
 }

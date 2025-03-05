@@ -1,6 +1,6 @@
 services:
   aspire-dashboard:
-    image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:8.0.0-preview.6
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
     environment:
       - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
     ports:
@@ -13,7 +13,10 @@ services:
     build:
       context: .
     environment:
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18889
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18890
+      - OTEL_TRACES_EXPORTER=otlp,console
+      - OTEL_LOGS_EXPORTER=otlp
+      - OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES=Examples.Service
     ports:
       - 8080:8080
     networks:

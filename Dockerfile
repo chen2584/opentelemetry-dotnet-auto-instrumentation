@@ -20,14 +20,15 @@ ENV OTEL_DOTNET_AUTO_HOME=/otel
 
 RUN apt-get update && apt-get install -y unzip curl
 RUN mkdir /otel
-RUN curl -L -o /otel/otel-dotnet-install.sh https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation/releases/download/v0.7.0/otel-dotnet-auto-install.sh
+RUN curl -L -o /otel/otel-dotnet-install.sh https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation/releases/download/v1.10.0/otel-dotnet-auto-install.sh
 RUN chmod +x /otel/otel-dotnet-install.sh
 
 RUN /bin/bash /otel/otel-dotnet-install.sh
 
 RUN chmod +x /otel/instrument.sh
-RUN /bin/bash /otel/instrument.sh
+
+# RUN /bin/bash /otel/instrument.sh
 
 WORKDIR /app
 COPY --from=build /app ./
-ENTRYPOINT ["dotnet", "MyApi.dll"]
+ENTRYPOINT ["/bin/bash", "-c", "source /otel/instrument.sh && dotnet MyApi.dll"]
