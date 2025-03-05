@@ -5,7 +5,6 @@ services:
       - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
     ports:
       - 18888:18888
-      - 18889:18889
     networks:
       - my-network
   my-api:
@@ -13,7 +12,7 @@ services:
     build:
       context: .
     environment:
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18890
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18890 #18890 is 4318 in default http otlp exporter port
       - OTEL_TRACES_EXPORTER=otlp,console
       - OTEL_LOGS_EXPORTER=otlp
     ports:
