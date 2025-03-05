@@ -16,7 +16,6 @@ services:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18890
       - OTEL_TRACES_EXPORTER=otlp,console
       - OTEL_LOGS_EXPORTER=otlp
-      - OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES=Examples.Service
     ports:
       - 8080:8080
     networks:
